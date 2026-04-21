@@ -5,7 +5,7 @@ function Insights() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/insights")
+    axios.get("http://3.108.60.145:5000/insights")
       .then(res => setData(res.data))
       .catch(err => console.error(err));
   }, []);

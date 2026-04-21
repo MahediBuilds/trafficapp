@@ -15,7 +15,7 @@ function Dashboard() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/get-data")
+    axios.get("http://3.108.60.145:5000/get-data")
       .then(res => setData(res.data))
       .catch(err => console.error(err));
   }, []);

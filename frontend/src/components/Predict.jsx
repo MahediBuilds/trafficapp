@@ -20,8 +20,8 @@ function Predict() {
     };
 
     try {
-      const res1 = await axios.post("http://127.0.0.1:5000/predict", data);
-      const res2 = await axios.post("http://127.0.0.1:5000/classify", data);
+      const res1 = await axios.post("http://3.108.60.145:5000/predict", data);
+      const res2 = await axios.post("http://3.108.60.145:5000/classify", data);
 
       setResult(res1.data.prediction);
       setLevel(res2.data.traffic_level);
