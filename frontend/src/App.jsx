@@ -4,8 +4,9 @@ import Insights from "./components/Insights";
 
 function App() {
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Traffic Analysis System</h1>
+    <div style={{ padding: "40px", maxWidth: "900px", margin: "auto" }}>
+      <h1 style={{ textAlign: "center" }}>Traffic Analysis System</h1>
+
       <Dashboard />
       <Predict />
       <Insights />

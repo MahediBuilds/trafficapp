@@ -2,11 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 
 function Predict() {
+  const [hour, setHour] = useState(12);
   const [result, setResult] = useState(null);
+  const [level, setLevel] = useState("");
 
   const handlePredict = async () => {
     const data = {
-      hour: 18,
+      hour: Number(hour),
       day_of_week: 2,
       month: 10,
       temp: 290,
@@ -17,16 +19,32 @@ function Predict() {
       weather_main_Clear: 1
     };
 
-    const res = await axios.post("http://127.0.0.1:5000/predict", data);
-    setResult(res.data.prediction);
+    try {
+      const res1 = await axios.post("http://127.0.0.1:5000/predict", data);
+      const res2 = await axios.post("http://127.0.0.1:5000/classify", data);
+
+      setResult(res1.data.prediction);
+      setLevel(res2.data.traffic_level);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
     <div>
       <h2>Prediction</h2>
-      <button onClick={handlePredict}>Predict Traffic</button>
+
+      <input
+        type="number"
+        value={hour}
+        onChange={(e) => setHour(e.target.value)}
+        placeholder="Enter hour (0-23)"
+      />
+
+      <button onClick={handlePredict}>Predict</button>
 
       {result && <p>Prediction: {result}</p>}
+      {level && <p>Traffic Level: {level}</p>}
     </div>
   );
 }
