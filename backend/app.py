@@ -1,9 +1,15 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import pandas as pd
 import joblib
 import os
 
 app = Flask(__name__)
+
+# -------------------------
+# ENABLE CORS (IMPORTANT)
+# -------------------------
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # -------------------------
 # PATH SETUP
@@ -21,7 +27,7 @@ clf = joblib.load(os.path.join(model_path, "classify.pkl"))
 columns = joblib.load(os.path.join(model_path, "columns.pkl"))
 
 # -------------------------
-# LOAD DATA (for dashboard)
+# LOAD DATA
 # -------------------------
 df = pd.read_csv(os.path.join(data_path, "Metro_Interstate_Traffic_Volume.csv"))
 
@@ -32,7 +38,7 @@ df['month'] = df['date_time'].dt.month
 
 
 # -------------------------
-# HELPER FUNCTION (IMPORTANT)
+# HELPER FUNCTION
 # -------------------------
 def prepare_input(data):
     input_df = pd.DataFrame([data])
@@ -42,7 +48,7 @@ def prepare_input(data):
         if col not in input_df:
             input_df[col] = 0
 
-    # Keep correct order
+    # Ensure correct order
     input_df = input_df[columns]
 
     return input_df
@@ -98,5 +104,8 @@ def insights():
     })
 
 
+# -------------------------
+# RUN SERVER
+# -------------------------
 if __name__ == "__main__":
     app.run(debug=True)
